@@ -1,0 +1,300 @@
+{
+  "library": "pptxgenjs",
+  "version": "3.x",
+  "description": "Referencia completa de elementos disponibles en PptxGenJS para que una IA elija los más adecuados según el contenido del slide.",
+  "elements": [
+
+    {
+      "id": "text_simple",
+      "name": "Texto simple",
+      "method": "slide.addText(string, options)",
+      "description": "Agrega un bloque de texto con una sola cadena. Ideal para títulos, subtítulos, etiquetas o cualquier texto corto con estilo uniforme.",
+      "use_when": "El texto es corto y tiene un solo estilo (mismo color, tamaño y fuente en todo el bloque).",
+      "key_options": {
+        "x": "Posición horizontal en pulgadas",
+        "y": "Posición vertical en pulgadas",
+        "w": "Ancho en pulgadas",
+        "h": "Alto en pulgadas",
+        "fontSize": "Tamaño de fuente en puntos (ej: 24)",
+        "bold": "Negrita: true/false",
+        "italic": "Cursiva: true/false",
+        "color": "Color hex sin # (ej: FF0000)",
+        "fontFace": "Nombre de fuente (ej: Calibri, Georgia)",
+        "align": "Alineación: left, center, right",
+        "valign": "Alineación vertical: top, middle, bottom",
+        "margin": "Margen interno en puntos (0 para alinear con formas)",
+        "charSpacing": "Espaciado entre caracteres (ej: 6)"
+      }
+    },
+
+    {
+      "id": "text_rich",
+      "name": "Texto enriquecido (multi-estilo)",
+      "method": "slide.addText([{ text, options }], options)",
+      "description": "Agrega texto donde cada fragmento puede tener su propio color, tamaño, negrita, etc. Útil para combinar estilos dentro de un mismo bloque.",
+      "use_when": "Se necesitan palabras o frases con estilos distintos dentro del mismo párrafo (ej: 'Nombre:' en dorado y el valor en blanco).",
+      "key_options": {
+        "per_item": {
+          "text": "El texto del fragmento",
+          "options.bold": "Negrita individual",
+          "options.color": "Color individual",
+          "options.fontSize": "Tamaño individual",
+          "options.breakLine": "Salto de línea al final del fragmento: true/false"
+        },
+        "container": {
+          "x": "Posición X",
+          "y": "Posición Y",
+          "w": "Ancho",
+          "h": "Alto",
+          "fontSize": "Tamaño base (se puede sobreescribir por ítem)",
+          "fontFace": "Fuente base"
+        }
+      }
+    },
+
+    {
+      "id": "text_bullets",
+      "name": "Lista con bullets",
+      "method": "slide.addText([{ text, options: { bullet, breakLine } }], options)",
+      "description": "Crea listas de puntos. Cada ítem del array es un bullet. Se puede usar bullet simple, numerado o con símbolo unicode personalizado.",
+      "use_when": "El contenido es una lista de ítems, características, pasos o puntos clave.",
+      "key_options": {
+        "bullet_types": {
+          "simple": "bullet: true (usa el bullet por defecto del sistema)",
+          "custom_symbol": "bullet: { code: '25B6' } (triángulo ►, o cualquier código unicode)",
+          "numbered": "bullet: { type: 'number' }",
+          "indented": "bullet: true, indentLevel: 1 (sub-ítem)"
+        },
+        "container": {
+          "paraSpaceAfter": "Espacio entre bullets en puntos (ej: 12)",
+          "fontSize": "Tamaño de fuente de la lista",
+          "valign": "Alineación vertical del bloque"
+        },
+        "warning": "NUNCA usar símbolos unicode directamente en el string (ej: '• texto') porque genera doble bullet."
+      }
+    },
+
+    {
+      "id": "shape_rectangle",
+      "name": "Rectángulo",
+      "method": "slide.addShape(pres.shapes.RECTANGLE, options)",
+      "description": "Forma rectangular. Usada para fondos de sección, barras decorativas, tarjetas, separadores o bloques de color.",
+      "use_when": "Crear fondos de encabezado, barras laterales, tarjetas de contenido, separadores visuales o bloques de color sólido.",
+      "key_options": {
+        "x": "Posición X",
+        "y": "Posición Y",
+        "w": "Ancho",
+        "h": "Alto",
+        "fill": "{ color: 'HEXCOLOR' } — color de relleno",
+        "line": "{ color: 'HEX', width: 1 } — borde",
+        "shadow": "{ type: 'outer', blur: 8, offset: 3, angle: 135, color: '000000', opacity: 0.1 }",
+        "transparency": "Transparencia del relleno 0-100"
+      }
+    },
+
+    {
+      "id": "shape_rounded_rectangle",
+      "name": "Rectángulo redondeado",
+      "method": "slide.addShape(pres.shapes.ROUNDED_RECTANGLE, options)",
+      "description": "Igual que el rectángulo pero con esquinas redondeadas. Da un aspecto más moderno y suave.",
+      "use_when": "Tarjetas de contenido modernas, badges, chips o contenedores con estética redondeada.",
+      "key_options": {
+        "rectRadius": "Radio de las esquinas en pulgadas (ej: 0.1)",
+        "warning": "No combinar con barras de acento rectangulares encima, ya que no cubrirán las esquinas redondeadas. Usar RECTANGLE en su lugar."
+      }
+    },
+
+    {
+      "id": "shape_oval",
+      "name": "Óvalo / Círculo",
+      "method": "slide.addShape(pres.shapes.OVAL, options)",
+      "description": "Forma ovalada o circular (si w === h). Útil como elemento decorativo de fondo, avatar placeholder, indicador o ícono circular.",
+      "use_when": "Elementos decorativos de fondo, contenedores de íconos circulares, indicadores o acentos visuales.",
+      "key_options": {
+        "fill": "Color de relleno",
+        "transparency": "Transparencia 0-100 para efectos sutiles de fondo",
+        "line": "Borde del óvalo"
+      }
+    },
+
+    {
+      "id": "shape_line",
+      "name": "Línea",
+      "method": "slide.addShape(pres.shapes.LINE, options)",
+      "description": "Línea recta horizontal o diagonal. Sirve como separador visual entre secciones.",
+      "use_when": "Separar el título del contenido, dividir columnas o agregar un detalle decorativo sutil.",
+      "key_options": {
+        "h": "Usar 0 para línea horizontal perfecta",
+        "line": "{ color: 'HEX', width: 2, dashType: 'solid|dash|dot' }"
+      }
+    },
+
+    {
+      "id": "image_file",
+      "name": "Imagen desde archivo o URL",
+      "method": "slide.addImage({ path, x, y, w, h })",
+      "description": "Inserta una imagen desde una ruta local o URL pública. Soporta PNG, JPG, GIF y SVG.",
+      "use_when": "Mostrar fotografías, logos, ilustraciones, diagramas externos o cualquier imagen visual.",
+      "key_options": {
+        "path": "Ruta local o URL de la imagen",
+        "x, y, w, h": "Posición y tamaño",
+        "rounding": "true para recorte circular (foto de perfil)",
+        "transparency": "0-100",
+        "rotate": "Rotación en grados 0-359",
+        "sizing": "{ type: 'cover|contain|crop', w, h } para control de aspecto"
+      }
+    },
+
+    {
+      "id": "image_base64",
+      "name": "Imagen desde base64",
+      "method": "slide.addImage({ data: 'image/png;base64,...', x, y, w, h })",
+      "description": "Inserta una imagen codificada en base64 directamente. Más rápido que archivo, sin dependencia de rutas.",
+      "use_when": "Íconos generados dinámicamente, imágenes procesadas en memoria o cuando no hay acceso al sistema de archivos."
+    },
+
+    {
+      "id": "table",
+      "name": "Tabla",
+      "method": "slide.addTable(rows, options)",
+      "description": "Crea una tabla con filas y columnas. Cada celda puede tener estilo propio. Soporta celdas combinadas (colspan/rowspan).",
+      "use_when": "Comparar datos, mostrar horarios, tablas de características, precios o cualquier información tabular.",
+      "key_options": {
+        "rows_format": "Array de arrays: [['Header1','Header2'],['val1','val2']]",
+        "cell_options": "{ text: 'valor', options: { fill, color, bold, colspan, rowspan } }",
+        "container": {
+          "x, y, w, h": "Posición y tamaño total",
+          "colW": "Array con anchos por columna (ej: [3, 3, 4])",
+          "border": "{ pt: 1, color: '999999' }",
+          "fill": "Color de fondo por defecto de las celdas"
+        }
+      }
+    },
+
+    {
+      "id": "chart_bar",
+      "name": "Gráfico de barras",
+      "method": "slide.addChart(pres.charts.BAR, data, options)",
+      "description": "Gráfico de barras verticales u horizontales. Ideal para comparar cantidades entre categorías.",
+      "use_when": "Comparar valores entre categorías, mostrar rankings, resultados por período o estadísticas.",
+      "key_options": {
+        "barDir": "'col' para barras verticales, 'bar' para horizontales",
+        "chartColors": "Array de colores hex para las series",
+        "showValue": "true para mostrar el valor encima de cada barra",
+        "showLegend": "true/false",
+        "legendPos": "'b', 't', 'l', 'r'",
+        "chartArea": "{ fill: { color: 'FFFFFF' }, roundedCorners: true }"
+      }
+    },
+
+    {
+      "id": "chart_line",
+      "name": "Gráfico de líneas",
+      "method": "slide.addChart(pres.charts.LINE, data, options)",
+      "description": "Gráfico de líneas para mostrar tendencias a lo largo del tiempo.",
+      "use_when": "Evolución temporal, tendencias, progreso o comparación de series a lo largo del tiempo.",
+      "key_options": {
+        "lineSmooth": "true para líneas curvas",
+        "lineSize": "Grosor de la línea en puntos"
+      }
+    },
+
+    {
+      "id": "chart_pie",
+      "name": "Gráfico de torta / pie",
+      "method": "slide.addChart(pres.charts.PIE, data, options)",
+      "description": "Gráfico circular para mostrar proporciones de un total.",
+      "use_when": "Distribución porcentual, participación de mercado, composición de un conjunto.",
+      "key_options": {
+        "showPercent": "true para mostrar porcentajes",
+        "showLegend": "true para mostrar leyenda",
+        "chartColors": "Array de colores para cada segmento"
+      }
+    },
+
+    {
+      "id": "chart_doughnut",
+      "name": "Gráfico de dona",
+      "method": "slide.addChart(pres.charts.DOUGHNUT, data, options)",
+      "description": "Igual que pie pero con un hueco en el centro. Más moderno visualmente.",
+      "use_when": "Mismos casos que pie, pero cuando se quiere un diseño más limpio y moderno."
+    },
+
+    {
+      "id": "background_color",
+      "name": "Fondo de color sólido",
+      "method": "slide.background = { color: 'HEXCOLOR' }",
+      "description": "Define el color de fondo de todo el slide.",
+      "use_when": "Establecer la base visual del slide. Fondos oscuros para portadas y cierres, claros para contenido."
+    },
+
+    {
+      "id": "background_image",
+      "name": "Fondo con imagen",
+      "method": "slide.background = { path: 'url_o_ruta' }",
+      "description": "Usa una imagen como fondo del slide completo.",
+      "use_when": "Slides de impacto visual como portadas, secciones de transición o slides con fotografía de fondo."
+    },
+
+    {
+      "id": "slide_master",
+      "name": "Slide master (plantilla base)",
+      "method": "pres.defineSlideMaster({ title, background, objects })",
+      "description": "Define una plantilla reutilizable con fondo, placeholders y objetos fijos que se aplican a múltiples slides.",
+      "use_when": "Presentaciones largas donde todos los slides comparten el mismo layout base (logo, pie de página, colores)."
+    },
+
+    {
+      "id": "notes",
+      "name": "Notas del presentador",
+      "method": "slide.addNotes('texto de notas')",
+      "description": "Agrega texto en el panel de notas del slide, visible solo para el presentador.",
+      "use_when": "Incluir guiones, recordatorios o información adicional para el presentador sin que aparezca en el slide."
+    }
+
+  ],
+
+  "layout_options": {
+    "description": "Tamaños de slide disponibles",
+    "values": {
+      "LAYOUT_16x9": "10 x 5.625 pulgadas — estándar moderno",
+      "LAYOUT_16x10": "10 x 6.25 pulgadas",
+      "LAYOUT_4x3": "10 x 7.5 pulgadas — formato clásico",
+      "LAYOUT_WIDE": "13.3 x 7.5 pulgadas — ultra ancho"
+    }
+  },
+
+  "design_tips": {
+    "description": "Reglas de diseño que la IA debe seguir al elegir elementos",
+    "rules": [
+      "Nunca crear slides solo con texto. Siempre agregar al menos una forma, ícono o imagen.",
+      "Usar fondos oscuros para portada, conclusión y preguntas. Fondos claros para contenido.",
+      "Un color debe dominar (60-70% del slide), 1-2 de apoyo y uno de acento.",
+      "Variar el layout entre slides: no repetir el mismo esquema dos veces seguidas.",
+      "Usar tarjetas (RECTANGLE con sombra) para agrupar contenido visualmente.",
+      "Para listas largas (5+ ítems) usar layout de dos columnas con tarjetas.",
+      "Para datos numéricos usar chart o stat callout (número grande + etiqueta pequeña).",
+      "Para procesos o pasos usar una línea de tiempo o flecha secuencial.",
+      "Títulos: 36-44pt. Subtítulos: 20-24pt. Cuerpo: 14-18pt. Pies: 10-12pt.",
+      "Margen mínimo desde el borde del slide: 0.5 pulgadas.",
+      "Espaciado entre bloques de contenido: 0.3-0.5 pulgadas.",
+      "NUNCA usar líneas decorativas bajo títulos — es señal de diseño genérico de IA."
+    ]
+  },
+
+  "color_palettes": {
+    "description": "Paletas recomendadas según el tono del tema",
+    "palettes": {
+      "ejecutivo_nocturno": { "primary": "1E2761", "secondary": "CADCFC", "accent": "FFFFFF" },
+      "naturaleza": { "primary": "2C5F2D", "secondary": "97BC62", "accent": "F5F5F5" },
+      "energia_coral": { "primary": "F96167", "secondary": "F9E795", "accent": "2F3C7E" },
+      "terracota": { "primary": "B85042", "secondary": "E7E8D1", "accent": "A7BEAE" },
+      "oceano": { "primary": "065A82", "secondary": "1C7293", "accent": "21295C" },
+      "minimalista": { "primary": "36454F", "secondary": "F2F2F2", "accent": "212121" },
+      "teal_confianza": { "primary": "028090", "secondary": "00A896", "accent": "02C39A" },
+      "berry": { "primary": "6D2E46", "secondary": "A26769", "accent": "ECE2D0" },
+      "sage": { "primary": "84B59F", "secondary": "69A297", "accent": "50808E" },
+      "rojo_bold": { "primary": "990011", "secondary": "FCF6F5", "accent": "2F3C7E" }
+    }
+  }
+}

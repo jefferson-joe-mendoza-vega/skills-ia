@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador Rápido de Imágenes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #f4f4f9;
+        }
+        .contenedor {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: inline-block;
+            max-width: 90%;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        img {
+            margin-top: 20px;
+            max-width: 100%;
+            border-radius: 8px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="contenedor">
+        <h2>Busca una Imagen</h2>
+        
+        <input type="text" id="palabra" placeholder="Ej. vaca, perro, auto">
+        <button onclick="mostrarImagen()">Buscar</button>
+
+        <img id="imagenReferencial" src="https://loremflickr.com/640/480/paisaje" alt="Tu imagen aparecerá aquí">
+    </div>
+
+    <script>
+        function mostrarImagen() {
+            // Obtenemos la palabra que escribiste
+            const palabra = document.getElementById('palabra').value;
+            
+            if (palabra.trim() !== '') {
+                // Creamos la URL con la palabra. 
+                // El Date().getTime() al final es un truco para que si buscas "vaca" dos veces, te dé una vaca diferente.
+                const nuevaUrl = `https://loremflickr.com/640/480/${palabra}?random=${new Date().getTime()}`;
+                
+                // Le cambiamos la imagen al HTML
+                document.getElementById('imagenReferencial').src = nuevaUrl;
+            } else {
+                alert('Por favor, escribe una palabra primero.');
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,3 @@
+- el agente lee primero los  elmentos y carga lso qque se usara de acuerdo al tmea d ela presentacion
+- crear le scritp
+- las imagenes obtnedra del html
